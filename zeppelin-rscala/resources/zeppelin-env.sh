@@ -14,5 +14,5 @@
 # Zeppelin environment variables to set from here.
 #
 
-export ZEPPELIN_MEM="-Xmx1024m"
+export ZEPPELIN_MEM="-Xmx2024m"
 # export ZEPPELIN_JAVA_OPTS="-Dspark.home=/usr/spark"
