@@ -37,11 +37,11 @@
       "properties": {
         "spark.cores.max": "",
         "spark.yarn.jar": "",
-        "master": "spark://localhost:7077",
+        "master": "mesos://zk://172.23.6.100:2181/mesos",
         "zeppelin.spark.maxResult": "1000",
         "zeppelin.dep.localrepo": "local-repo",
         "spark.app.name": "Zeppelin",
-        "spark.executor.memory": "215g",
+        "spark.executor.memory": "60g",
 	"spark.driver.maxResultSize": "4096m",
         "zeppelin.spark.useHiveContext": "true",
         "zeppelin.spark.concurrentSQL": "false",

@@ -40,8 +40,8 @@ ENV ZEPPELIN_NOTEBOOK_DIR    $ZEPPELIN_HOME/notebook
 ENV ZEPPELIN_PORT            8080
 ENV SCALA_BINARY_VERSION     2.10
 ENV SCALA_VERSION            $SCALA_BINARY_VERSION.4
-ENV SPARK_PROFILE            1.5
-ENV SPARK_VERSION            1.5.1
+ENV SPARK_PROFILE            1.4
+ENV SPARK_VERSION            1.4.1
 ENV HADOOP_PROFILE           2.6
 ENV HADOOP_VERSION           2.7.1
 
@@ -126,6 +126,22 @@ ENV SPARK_HOME /opt/spark
 # RUN curl http://apache.belnet.be/spark/spark-1.5.2/spark-1.5.2-bin-hadoop2.6.tgz -o spark-1.5.2-bin-hadoop2.6.tgz
 # RUN tar xvfz spark-1.5.2-bin-hadoop2.6.tgz
 
+
+###MESOS LIB####
+RUN ["env", "DEBIAN_FRONTEND=noninteractive", "apt-get", "update"]
+RUN ["env", "DEBIAN_FRONTEND=noninteractive", "apt-get", "install", "-y", "--fix-missing", "--force-yes", "build-essential", "python-dev", "python-boto", "libcurl4-nss-dev", "libsasl2-dev", "libsasl2-modules", "libapr1-dev", "libsvn-dev", "python2.7", "libsasl2-2", "libcurl3", "curl", "wget", "unzip", "default-jre", "default-jdk"]
+RUN ["env", "DEBIAN_FRONTEND=noninteractive", "apt-get", "install", "-y", "--fix-missing", "--force-yes", "python", "python-setuptools", "python-pip", "python-protobuf"]
+
+ADD http://downloads.mesosphere.io/master/ubuntu/14.04/mesos_0.21.1-1.0.ubuntu1404_amd64.deb /tmp/mesos.deb
+RUN ["env", "DEBIAN_FRONTEND=noninteractive", "dpkg", "-i", "/tmp/mesos.deb"]
+RUN ["bash", "-c", "echo manual > /etc/init/mesos-master.override"]
+RUN ["bash", "-c", "echo manual > /etc/init/mesos-slave.override"]
+
+ADD http://downloads.mesosphere.io/master/ubuntu/14.04/mesos-0.21.1-py2.7-linux-x86_64.egg /tmp/mesos.egg
+RUN ["easy_install", "/tmp/mesos.egg"]
+
+RUN ["rm", "-rf", "/tmp/mesos.egg", "/tmp/mesos.deb"]
+
 ### ZEPPELIN ###
 
 ENV PATH $ZEPPELIN_HOME/zeppelin-web/node:$PATH
@@ -201,8 +217,8 @@ RUN rm -rf /var/lib/apt/lists/*
 
 ### INTERFACE ###
 
-EXPOSE 22
-EXPOSE 4040
-EXPOSE 8080
+#EXPOSE 22
+#EXPOSE 4040
+#EXPOSE 8080
 
 ENTRYPOINT ["/opt/zeppelin/bin/datalayer-zeppelin.sh"]
