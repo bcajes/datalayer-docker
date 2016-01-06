@@ -218,7 +218,10 @@ RUN rm -rf /var/lib/apt/lists/*
 ### INTERFACE ###
 
 #EXPOSE 22
-#EXPOSE 4040
-#EXPOSE 8080
+EXPOSE 4040
+#EXPOSE 8080 #zeppelin web ui port should be exposed through nginx proxy instead
+##expose the following ports so that cluster manager can talk to spark driver
+EXPOSE 54321
+EXPOSE 54322
 
 ENTRYPOINT ["/opt/zeppelin/bin/datalayer-zeppelin.sh"]
